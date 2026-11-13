@@ -20,6 +20,25 @@ test('desktop: contenuti, immagini, contatti e FAQ', async ({ page }) => {
   await expect(page.locator('#tms h2')).toHaveText('Una parola nuova, un approccio da capire insieme');
   await expect(page.locator('.large-text')).toContainText('TMS significa Stimolazione Magnetica Transcranica:');
   await expect(page.locator('#percorso h2')).toHaveText('Niente salti nel buio, partiamo dall’ascolto');
+  await expect(page.locator('#seduta h2')).toHaveText('Come si svolgeuna seduta TMS');
+  await expect(page.locator('#session-title + .session-intro')).toContainText('Dalla preparazione all’avvio del protocollo');
+  const sessionTitle = await page.locator('#session-title').boundingBox();
+  const sessionIntro = await page.locator('.session-intro').boundingBox();
+  expect(sessionIntro.x).toBeCloseTo(sessionTitle.x, 0);
+  expect(sessionIntro.y).toBeGreaterThanOrEqual(sessionTitle.y + sessionTitle.height);
+  await expect(page.locator('#seduta + #domande')).toHaveCount(1);
+  await expect(page.locator('.technology + #seduta')).toHaveCount(1);
+  await expect(page.locator('#seduta ol li')).toHaveCount(6);
+  await expect(page.locator('#seduta ol h3')).toHaveText([
+    'Indossi la cuffietta e la fascia',
+    'Ti accomodi sulla poltrona',
+    'Rileviamo i punti di riferimento',
+    'Posizioniamo il coil',
+    'Avviamo il protocollo personalizzato',
+    'Concludiamo la seduta',
+  ]);
+  await expect(page.locator('#seduta img')).toHaveAttribute('src', '/images/WhatsApp%20Image%202026-11-13%20at%2012.56.36.jpeg');
+  await expect(page.getByRole('link', { name: 'La seduta, passo dopo passo' })).toHaveAttribute('href', '#seduta');
   await expect(page.locator('.technology h2')).toHaveText('Mirata,non invasiva,personalizzata.');
   await expect(page.locator('.technology h2 br')).toHaveCount(2);
   await expect(page.locator('#contatti h2')).toHaveText('Capiamo se fa per teinsieme, senza fretta');
@@ -59,6 +78,9 @@ test('mobile: menu accessibile, navigazione e nessun overflow', async ({ page })
     const photo = await page.locator('.hero-photo').boundingBox();
     expect(Math.abs(photo.width - photo.height)).toBeLessThan(2);
     if (width <= 760) {
+      const sessionPhoto = await page.locator('.session-photo').boundingBox();
+      const sessionSteps = await page.locator('.session-steps').boundingBox();
+      expect(sessionSteps.y).toBeGreaterThanOrEqual(sessionPhoto.y + sessionPhoto.height);
       const questions = await page.locator('.faq-list').boundingBox();
       const contact = await page.locator('.faq-contact').boundingBox();
       expect(contact.y).toBeGreaterThanOrEqual(questions.y + questions.height);
