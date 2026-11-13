@@ -1,5 +1,13 @@
 # Centro TMS Genova
 
+## Anteprima pubblica su GitHub Pages
+
+URL: https://quipsicocicova.github.io/tms-genova/
+
+Il workflow `.github/workflows/pages.yml` pubblica la build da `main`. Le modifiche ai testi vanno fatte in `index.html`; commit e push aggiornano l’anteprima automaticamente. Il sito usa il prefisso `/tms-genova/` durante la build Pages. Il modulo contatti è esplicitamente disabilitato nella build pubblica (`VITE_STATIC_PREVIEW=true`) e invita a chiamare lo studio. Sono presenti direttive `noindex, nofollow`: scoraggiano l’indicizzazione, ma il sito resta pubblico e non protetto da password.
+
+Per rimuovere l’anteprima usare Settings → Pages → Unpublish site. La disattivazione di Pages non rende privati i file del repository, che è pubblico. Lo strumento locale di caricamento foto e le configurazioni `.env` non sono inclusi.
+
 Landing responsive in italiano, realizzata con HTML, CSS e JavaScript, con Vite per sviluppo e build. Include un modulo contatti con endpoint Node `/api/contact`, senza analytics o mappe incorporate. Il servizio email deve essere configurato prima di poter inviare richieste: in assenza di configurazione, il modulo mostra un avviso e il numero dello studio, senza fingere un invio riuscito.
 
 ## Avvio
@@ -16,7 +24,7 @@ npm run build
 npm run preview -- --port 5186
 ```
 
-La cartella `dist/` contiene il frontend. Per mantenere funzionante il modulo in produzione serve anche un backend Node che monti `createContactHandler` da `server/contact.mjs` su `/api/contact`, oppure un servizio equivalente. Il solo hosting statico non invia messaggi. Il sito non è stato pubblicato online.
+La cartella `dist/` contiene il frontend. Per mantenere funzionante il modulo in produzione serve anche un backend Node che monti `createContactHandler` da `server/contact.mjs` su `/api/contact`, oppure un servizio equivalente. Il solo hosting statico non invia messaggi. La versione GitHub Pages è un’anteprima statica senza invio email.
 
 ## Foto
 
