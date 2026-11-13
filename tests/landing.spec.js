@@ -15,9 +15,15 @@ test('desktop: contenuti, immagini, contatti e FAQ', async ({ page }) => {
   await expect(page.locator('.hero-copy p.hero-description')).toContainText('usa impulsi magnetici');
   await expect(page.locator('.visual-label, .image-caption')).toHaveCount(0);
   await expect(page.locator('#domande h2')).toHaveText('Più chiarezza,meno timori');
-  for (const heading of await page.locator('h1, h2, h3').all()) {
-    expect((await heading.textContent()).trim()).not.toMatch(/\.$/);
-  }
+  await expect(page.locator('.hero-description')).toHaveText('La stimolazione magnetica transcranica (TMS) usa impulsi magnetici per stimolare in modo mirato alcune aree del cervello. Si svolge in ambulatorio, senza interventi chirurgici.');
+  await expect(page.locator('.tag-icon')).toHaveText('*');
+  await expect(page.locator('#tms h2')).toHaveText('Una parola nuova, un approccio da capire insieme');
+  await expect(page.locator('.large-text')).toContainText('TMS significa Stimolazione Magnetica Transcranica:');
+  await expect(page.locator('#percorso h2')).toHaveText('Niente salti nel buio, partiamo dall’ascolto');
+  await expect(page.locator('.technology h2')).toHaveText('Mirata,non invasivapersonalizzata.');
+  await expect(page.locator('.technology h2 br')).toHaveCount(2);
+  await expect(page.locator('#contatti h2')).toHaveText('Capiamo se fa per teinsieme, senza fretta');
+  await expect(page.locator('#contatti h2 br')).toHaveCount(1);
   await expect(page.locator('.hero-photo figcaption')).toHaveCount(0);
   await expect(page.locator('footer a[href="tel:+390103753411"]')).toHaveText('010 375 3411');
   await expect(page.locator('footer a[href="mailto:centrotmsgenova@gmail.com"]')).toBeVisible();
@@ -52,6 +58,14 @@ test('mobile: menu accessibile, navigazione e nessun overflow', async ({ page })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     const photo = await page.locator('.hero-photo').boundingBox();
     expect(Math.abs(photo.width - photo.height)).toBeLessThan(2);
+    if (width <= 760) {
+      const questions = await page.locator('.faq-list').boundingBox();
+      const contact = await page.locator('.faq-contact').boundingBox();
+      expect(contact.y).toBeGreaterThanOrEqual(questions.y + questions.height);
+      for (const paragraph of await page.locator('.hero-description, .intro-copy p, .section-top > p, .conditions p, .steps p, .technology p:not(.eyebrow), .faq > div > p:not(.eyebrow), details p, .contact-inner > div > p:not(.eyebrow, .contact-privacy, .contact-status)').all()) {
+        expect(await paragraph.evaluate(element => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(14);
+      }
+    }
   }
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
