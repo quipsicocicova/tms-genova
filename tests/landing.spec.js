@@ -80,7 +80,7 @@ test('mobile: menu accessibile, navigazione e nessun overflow', async ({ page })
     if (width <= 760) {
       const sessionPhoto = await page.locator('.session-photo').boundingBox();
       const sessionSteps = await page.locator('.session-steps').boundingBox();
-      expect(sessionSteps.y).toBeGreaterThanOrEqual(sessionPhoto.y + sessionPhoto.height);
+      expect(sessionPhoto.y).toBeGreaterThanOrEqual(sessionSteps.y + sessionSteps.height);
       const questions = await page.locator('.faq-list').boundingBox();
       const contact = await page.locator('.faq-contact').boundingBox();
       expect(contact.y).toBeGreaterThanOrEqual(questions.y + questions.height);
