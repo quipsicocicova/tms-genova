@@ -20,7 +20,7 @@ test('desktop: contenuti, immagini, contatti e FAQ', async ({ page }) => {
   await expect(page.locator('#tms h2')).toHaveText('Una parola nuova, un approccio da capire insieme');
   await expect(page.locator('.large-text')).toContainText('TMS significa Stimolazione Magnetica Transcranica:');
   await expect(page.locator('#percorso h2')).toHaveText('Niente salti nel buio, partiamo dall’ascolto');
-  await expect(page.locator('.technology h2')).toHaveText('Mirata,non invasivapersonalizzata.');
+  await expect(page.locator('.technology h2')).toHaveText('Mirata,non invasiva,personalizzata.');
   await expect(page.locator('.technology h2 br')).toHaveCount(2);
   await expect(page.locator('#contatti h2')).toHaveText('Capiamo se fa per teinsieme, senza fretta');
   await expect(page.locator('#contatti h2 br')).toHaveCount(1);
