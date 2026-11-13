@@ -9,6 +9,7 @@ test('desktop: contenuti, immagini, contatti e FAQ', async ({ page }) => {
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.locator('h1')).toHaveText('TMS a Genova:');
   await expect(page.locator('.orbit')).toHaveCount(0);
+  await expect(page.locator('.hero-photo img')).toHaveAttribute('src', '/images/generated-image.png');
   const photo = await page.locator('.hero-photo').boundingBox();
   expect(Math.abs(photo.width - photo.height)).toBeLessThan(2);
   await expect(page.locator('.hero-subtitle')).toHaveText('un trattamento indolore e senza farmaci per la tua salute mentale');
